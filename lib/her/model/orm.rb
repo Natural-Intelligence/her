@@ -147,7 +147,10 @@ module Her
         #   # Called via PUT "/users/1"
         def save_existing(id, params)
           resource = new(params.merge(primary_key => id))
-          resource.save
+          result = resource.save
+          if not result
+            raise Her::Errors::ResourceInvalid, resource
+          end
           resource
         end
 
