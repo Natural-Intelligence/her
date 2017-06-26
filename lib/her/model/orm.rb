@@ -45,7 +45,10 @@ module Her
               @metadata = parsed_data[:metadata]
               @response_errors = parsed_data[:errors]
 
-              return false if !response.success? || @response_errors.any?
+              if !response.success? || @response_errors.any?
+                self.parsed_data = parsed_data
+                return false
+              end
               if self.changed_attributes.present?
                 @previously_changed = self.changed_attributes.clone
                 self.changed_attributes.clear
